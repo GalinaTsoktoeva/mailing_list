@@ -164,3 +164,13 @@ LOGIN_URL = '/users/'
 CRONJOBS = [
     ('*/5 * * * *', 'mailing.cron.my_scheduled_job')
 ]
+
+CACHE_ENABLED = os.getenv('CACHE_ENABLED') == 'True'
+
+if CACHE_ENABLED:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.redis.RedisCache",
+            "LOCATION": os.getenv('CACHE_LOCATION'),
+        }
+    }
