@@ -2,6 +2,8 @@ from django.db import models
 from django.forms import ModelForm
 from django.utils import timezone
 
+from users.models import User
+
 NULLABLE = {'blank': True, 'null': True}
 
 
@@ -36,6 +38,7 @@ class Mailing(models.Model):
     periodicity = models.PositiveSmallIntegerField(verbose_name="периодичность", choices=TITLE_CHOICES_PERIODICITY, default=1)
     status = models.PositiveSmallIntegerField(verbose_name='статус рассылки', choices=TITLE_CHOICES_STATUS, default=1)
     massage = models.ForeignKey(Message, on_delete=models.SET_NULL, **NULLABLE)
+    user = models.ForeignKey(User, verbose_name='пользователь', on_delete=models.CASCADE, **NULLABLE)
 
     def __str__(self):
         return f"{self.status}"
@@ -48,8 +51,9 @@ class Mailing(models.Model):
 class Log(models.Model):
 
     date_attempt = models.DateTimeField(verbose_name='Дата попытки')
-    status = models.CharField(max_length=100, verbose_name='Статус попытки')
-    answer = models.CharField(max_length=100, **NULLABLE, verbose_name='ответ сервера')
+    status = models.CharField(max_length=150, verbose_name='Статус попытки')
+    answer = models.TextField( **NULLABLE, verbose_name='ответ сервера')
+    mailing = models.ForeignKey(Mailing, **NULLABLE, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.status} {self.date_attempt}"

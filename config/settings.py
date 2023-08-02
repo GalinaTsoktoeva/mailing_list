@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'blog',
     'client',
     'users',
+    'django_crontab',
 ]
 
 MIDDLEWARE = [
@@ -158,3 +159,8 @@ EMAIL_ADMIN = EMAIL_HOST_USER
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/users/'
+
+CRONJOBS = [
+    ('*/5 * * * *', 'mailing.cron.my_scheduled_job')
+]

@@ -9,3 +9,5 @@ class MailingForms(forms.ModelForm):
         model = Mailing
         fields = '__all__'
 
+
+
