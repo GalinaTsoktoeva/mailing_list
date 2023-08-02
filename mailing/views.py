@@ -3,12 +3,14 @@ from datetime import datetime
 import smtplib
 import pytz
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.mail import send_mail
 
+from blog.models import Article
 from client.models import Client
 from mailing.forms import MailingForms
 from mailing.models import Mailing, Log
@@ -37,6 +39,22 @@ def contact(request):
         'title': "Контакты"
     }
     return render(request, 'mailing/contact.html', context)
+
+
+@login_required
+def main(request):
+    clients = len(Client.objects.all().distinct('email'))
+    article = Article.objects.all()
+    mailing = len(Mailing.objects.all())
+    mailing_active = len(Mailing.objects.filter(status=2))
+    context = {
+        'title': "Главная",
+        'article': article[:3],
+        'mailing': mailing,
+        'mailing_active': mailing_active,
+        'clients': clients
+    }
+    return render(request, 'mailing/main.html', context)
 
 
 class MailingCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
