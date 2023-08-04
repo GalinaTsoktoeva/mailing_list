@@ -16,4 +16,18 @@
         </div>
     </div>
 </div>
+<div class="col-md-6">
+    <div class="card mb-4 box-shadow">
+        <div class="card-header">
+            <div class="card-title">
+                Отчет по отправке
+            </div>
+        </div>
+        <div class="card-body">
+            {% for log in object.log_set.all %}
+            <p class="card-text">{{ log.date_attempt }} {{ log.status }} {{ log.answer }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}

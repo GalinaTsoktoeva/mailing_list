@@ -52,7 +52,7 @@ class Log(models.Model):
 
     date_attempt = models.DateTimeField(verbose_name='Дата попытки')
     status = models.CharField(max_length=150, verbose_name='Статус попытки')
-    answer = models.TextField( **NULLABLE, verbose_name='ответ сервера')
+    answer = models.TextField(**NULLABLE, verbose_name='ответ сервера')
     mailing = models.ForeignKey(Mailing, **NULLABLE, on_delete=models.CASCADE)
 
     def __str__(self):
