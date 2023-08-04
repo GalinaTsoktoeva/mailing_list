@@ -41,7 +41,6 @@ def contact(request):
     return render(request, 'mailing/contact.html', context)
 
 
-@login_required
 def main(request):
     clients = len(Client.objects.all().distinct('email'))
     article = Article.objects.all()
