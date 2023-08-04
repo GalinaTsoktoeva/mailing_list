@@ -43,7 +43,7 @@ def contact(request):
 
 def main(request):
     clients = len(Client.objects.all().distinct('email'))
-    article = Article.objects.all()
+    article = Article.objects.filter(is_published=True).order_by('?')
     mailing = len(Mailing.objects.all())
     mailing_active = len(Mailing.objects.filter(status=2))
     context = {
