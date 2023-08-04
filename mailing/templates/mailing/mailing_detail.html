@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="card-body">
-            {% for log in object.log_set.all %}
+            {% for log in logs %}
             <p class="card-text">{{ log.date_attempt }} {{ log.status }} {{ log.answer }}</p>
             {% endfor %}
         </div>

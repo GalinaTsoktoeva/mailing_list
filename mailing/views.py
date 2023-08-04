@@ -5,6 +5,8 @@ import pytz
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.cache import cache
+
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -27,6 +29,20 @@ class MailingListView(LoginRequiredMixin, ListView):
 class MailingDetailView(LoginRequiredMixin, DetailView):
     model = Mailing
     template_name = 'mailing/mailing_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        if settings.CACHE_ENABLED:
+            key = f'log_list_{self.object.pk}'
+            log_list = cache.get(key)
+            if log_list is None:
+                log_list = self.object.log_set.all()
+                cache.set(key, log_list)
+        else:
+            log_list = self.object.log_set.all()
+        context_data['logs'] = log_list
+
+        return context_data
 
 
 def contact(request):
