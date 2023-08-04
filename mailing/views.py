@@ -16,7 +16,7 @@ from mailing.forms import MailingForms
 from mailing.models import Mailing, Log
 
 
-class MailingListView(ListView):
+class MailingListView(LoginRequiredMixin, ListView):
     model = Mailing
     template_name = 'mailing/mailing_list.html'
 

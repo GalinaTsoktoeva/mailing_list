@@ -8,7 +8,7 @@ from client.forms import ClientForms
 from client.models import Client
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     template_name = 'client/client_list.html'
 
