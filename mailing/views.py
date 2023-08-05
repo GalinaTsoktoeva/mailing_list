@@ -82,7 +82,7 @@ class MailingCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         tz = pytz.timezone('Europe/Moscow')
         clients = [client.email for client in Client.objects.filter(user=self.request.user)]
         new_mailing = form.save()
-        print(new_mailing.pk)
+
         if new_mailing.mailing_time <= datetime.now(tz):
             mail_subject = new_mailing.massage.body if new_mailing.massage is not None else 'Рассылка'
             message = new_mailing.massage.theme if new_mailing.massage is not None else 'Вам назначена рассылка'
@@ -103,6 +103,8 @@ class MailingCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
                 log.save()
                 #raise err
             new_mailing.status = 3
+            if new_mailing.user is None:
+                new_mailing.user = self.request.user
             new_mailing.save()
 
         return super().form_valid(form)
