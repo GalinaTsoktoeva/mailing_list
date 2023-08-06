@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.core.management import BaseCommand
 
 from users.models import User
@@ -15,3 +16,6 @@ class Command(BaseCommand):
         )
         user.set_password('12345')
         user.save()
+
+        my_group = Group.objects.create(name='manager_mailing')
+        my_group.user_set.add(user)
