@@ -5,7 +5,7 @@ from client.models import Client
 from mailing.models import Mailing, Message
 from users.models import User
 
-
+"""Команда для наполнения базы Рассылки, Клиенты, Сообщения"""
 class Command(BaseCommand):
     def handle(self, *args, **options):
         message_list = [
@@ -20,7 +20,7 @@ class Command(BaseCommand):
                 Message(**message)
             )
 
-        #Message.objects.bulk_create(message_for_create)
+        Message.objects.bulk_create(message_for_create)
 
         mailing_list = [
             {'mailing_time': timezone.now(), 'periodicity': 1, 'status': 1, 'massage': Message.objects.get(pk=1)},

@@ -9,7 +9,7 @@ from django.core.management import BaseCommand
 from client.models import Client
 from mailing.models import Mailing, Log
 
-
+""" Команда для отправки рассылки """
 class Command(BaseCommand):
 
     def handle(self, *args, **options):
